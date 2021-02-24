@@ -17,27 +17,26 @@ import Modals from "./ModalsComponent/Modals";
 
 const Main = () => {
 
-    const [modalState, setModalState] = useState({
-        modalType: ''
+    const [modalsData, setModalsData] = useState({
+            isModalActive: false,
+            isNewInstanceModalHidden: true,
+            newInstaceModalData: null,
+            isNewMedicineModalHidden: true,
+            newMedicineModalData: null,
+            isMedicineDescriptionModalHidden: true,
+            medicineDescriptionData: null,
     })
-
-    const [isModalHidden, setIsModalHidden] = useState(true)
-    const [modalData, setModalData] = useState()
-
-    useEffect(() => {
-        console.log(modalData)
-    }, [modalData])
 
     return (
         <>
             <Header />
             <Route exact path="/">
-                <Home setIsModalHidden={ setIsModalHidden } setModalData={ setModalData } />
+                <Home modalsData={ modalsData } setModalsData={ setModalsData } />
             </Route>
             <Route exact path="/medicines">
-                <Medicines />
+                <Medicines modalsData={ modalsData } setModalsData={ setModalsData } />
             </Route>
-            { isModalHidden ? null : <Modals modalType={ modalState.modalType } isModalHidden={ isModalHidden } setIsModalHidden={ setIsModalHidden } /> }
+            <Modals modalsData={ modalsData } setModalsData={ setModalsData } />
         </>
     )
 }

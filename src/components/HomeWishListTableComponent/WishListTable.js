@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../AuthorizationComponents/Auth';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const WishListTable = ({ setIsModalHidden, setModalData }) => {
+const WishListTable = ({ modalsData, setModalsData }) => {
 
     const [wishListData, setWishListData] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [isDeleted, setIsDeleted] = useState(false);
+
+    const { currentUser } = useContext(AuthContext);
 
     const getData = async () => {
         await fetch('http://localhost:8080/medicine/showWishlist', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
             }
         })
         .then(response => response.json())
@@ -22,12 +27,12 @@ const WishListTable = ({ setIsModalHidden, setModalData }) => {
         })
     }
 
-    const setModal = (e) => {
-
-        setIsModalHidden(false);
-        setModalData({
-            medicine_id: e.currentTarget.dataset.medicineId
-        })
+    const openModal = () => {
+        setModalsData(prevState => ({
+            ...prevState,
+            isModalActive: true,
+            isNewInstanceModalHidden: false,
+        }))
     }
 
     const deleteFromWishList = async (e) => {
@@ -36,14 +41,18 @@ const WishListTable = ({ setIsModalHidden, setModalData }) => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
+                'userId': 'useridishere'
             },
             body: JSON.stringify(medicineToDeleteFromWishList),
         })
+        setIsDeleted(true)
+        setIsDeleted(false)
     }
 
     useEffect(() => {
         getData()
-    }, [])
+
+    }, [isDeleted])
 
     return (
         <div className="wish-list">
@@ -62,9 +71,9 @@ const WishListTable = ({ setIsModalHidden, setModalData }) => {
                     { isLoading ? null : wishListData.map((value, idx) => (
                         <tr key={ idx }>
                             <td>{ value.name }</td>
-                            <td>{ value.description }</td>
+                            <td>{ value.notes }</td>
                             <td>
-                                <span data-medicine-id={ value.id } onClick={ setModal } ><FontAwesomeIcon icon={ faPlusSquare } /></span>
+                                <span data-medicine-id={ value.id } onClick={ openModal } ><FontAwesomeIcon icon={ faPlusSquare } /></span>
                                 <span data-medicine-id={ value.id } onClick={ deleteFromWishList }><FontAwesomeIcon icon={ faTrash } /></span>
                             </td>
                         </tr>

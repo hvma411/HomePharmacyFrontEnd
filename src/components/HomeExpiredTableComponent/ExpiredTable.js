@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AuthContext } from '../AuthorizationComponents/Auth';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingBasket, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -8,15 +9,19 @@ const ExpiredTable = () => {
     const [expiredTableData, setExpiredTableData] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
+    const { currentUser } = useContext(AuthContext);
+
     const getData = async () => {
         await fetch('http://localhost:8080/medicine/listLastInstances', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
             }
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             setExpiredTableData(data)
             setIsLoading(false)
         })
@@ -28,6 +33,7 @@ const ExpiredTable = () => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
+                'userId': currentUser.uid
             },
             body: JSON.stringify(medicineToPass.medicine),
         })
@@ -39,6 +45,7 @@ const ExpiredTable = () => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
+                'userId': currentUser.uid
             },
             body: JSON.stringify(medicineToHide),
         })

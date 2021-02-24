@@ -1,17 +1,24 @@
 import { faCheck, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../AuthorizationComponents/Auth';
 
 const ActiveTable = () => {
 
     const [activeTableData, setActiveTableData] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
+    
+    const { currentUser } = useContext(AuthContext);
+
+    console.log(currentUser.uid)
+
     const getData = async () => {
         await fetch('http://localhost:8080/medicine/showTodaysMedicines', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
             }
         })
         .then(response => response.json())

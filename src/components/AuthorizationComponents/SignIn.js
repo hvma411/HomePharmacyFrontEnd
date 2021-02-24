@@ -57,6 +57,7 @@ const SignIn = ({ history }) => {
                         </form>
                     </div>
                 </div>
+                <div className="blured"></div>
             </section>
             <div className="background-wave"></div>
         </>

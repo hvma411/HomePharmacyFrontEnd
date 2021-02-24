@@ -3,11 +3,11 @@ import ActiveTable from '../HomeActiveTableComponent/ActiveTable';
 import ExpiredTable from '../HomeExpiredTableComponent/ExpiredTable';
 import WishListTable from '../HomeWishListTableComponent/WishListTable';
 
-const Home = ({ setIsModalHidden, setModalData }) => {
+import firebase from '../../config/firbase'
 
-    // const setIsMModal = () => {
-    //     setIsModalHidden(false)
-    // }
+const Home = ({ modalsData, setModalsData }) => {
+
+    console.log(firebase.auth().currentUser)
 
     return (
         <>
@@ -17,10 +17,11 @@ const Home = ({ setIsModalHidden, setModalData }) => {
                         <ExpiredTable />
                     </div>
                     <div className="right-row">
-                        <WishListTable setIsModalHidden={ setIsModalHidden } setModalData={ setModalData } />
+                        <WishListTable modalsData={ modalsData } setModalsData={ setModalsData } />
                         <ActiveTable />
                     </div>
                 </div>
+                <div className="blured"></div>
             </section>
             <div className="background-wave"></div>
         </>
