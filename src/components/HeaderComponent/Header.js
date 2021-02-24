@@ -10,7 +10,7 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom';
 import { AuthContext } from '../AuthorizationComponents/Auth';
-import firebase from '../../config/firbase'
+import firebase from '../../config/firebase'
 
 const Header = () => {
 

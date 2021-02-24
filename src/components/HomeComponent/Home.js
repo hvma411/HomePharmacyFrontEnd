@@ -3,7 +3,7 @@ import ActiveTable from '../HomeActiveTableComponent/ActiveTable';
 import ExpiredTable from '../HomeExpiredTableComponent/ExpiredTable';
 import WishListTable from '../HomeWishListTableComponent/WishListTable';
 
-import firebase from '../../config/firbase'
+import firebase from '../../config/firebase'
 
 const Home = ({ modalsData, setModalsData }) => {
 
