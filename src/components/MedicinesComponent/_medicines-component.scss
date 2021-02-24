@@ -1,0 +1,33 @@
+.medicines-page {
+    flex-direction: column;
+    align-items: center;
+}
+
+.badges-links{
+    min-width: 75%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.badge-button{
+    background-color: #252e35;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 5px;
+    box-shadow: 5 5 5px rgba(1, 0, 0, 1);
+    cursor: pointer;
+    outline: none;
+}
+.badge-button:hover{
+    background-color: #3c3b4e   
+}
+.badge-button:active {
+    background-color: #252e35;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}

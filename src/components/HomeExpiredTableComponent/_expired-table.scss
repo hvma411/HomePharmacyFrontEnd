@@ -1,0 +1,65 @@
+.expired-date-list{
+    min-width:35%;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+
+    .title-table{
+        background-color: #1c222998;
+        text-align: center;
+    }
+
+    .styled-expire-table{
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 700px;
+        box-shadow: 0 0 20px rgba(0, 0, 1, 1);
+    }
+    .styled-expire-table thead tr {
+        background-color: #252e35e8;
+        color: #ffffff;
+        text-align: left;
+    }
+    .styled-expire-table th,
+    .styled-expire-table td {
+        padding: 12px 15px;
+    }
+    .styled-expire-table tbody tr {
+        border-bottom: 1px solid #797979;
+    }
+    
+    .styled-expire-table tbody tr:nth-of-type(odd) {
+        background-color: #ffffffdc;
+    }
+    
+    .styled-expire-table tbody tr:nth-of-type(even) {
+        background-color: #ffffffdc;
+    }
+    
+    .styled-expire-table tbody tr:last-of-type {
+        border-bottom: 2px solid #000000;
+    }
+    .styled-expire-table tbody tr:hover {
+        background-color: #ccd0d8ef;
+    }
+    .styled-expire-table td:nth-child(2){
+        width: 60px;
+    }
+    .styled-expire-table td:nth-child(3){
+        width: 120px;
+    }
+    .styled-expire-table td:nth-child(4){
+        width: 110px;
+
+        span {
+            margin-right: 8px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            padding: 2px;
+            font-size: 1.5rem;
+        }
+    }
+}

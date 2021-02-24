@@ -1,0 +1,39 @@
+.styled-medicine-table{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 80%;
+    box-shadow: 0 0 15px rgba(1, 0, 1, 1);   
+}
+.styled-medicine-table thead tr {
+    background-color: #252e35e8;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-medicine-table th,
+.styled-medicine-table td {
+    padding: 12px 15px;
+}
+.styled-medicine-table tbody tr {
+    border-bottom: 1px solid #797979;
+}
+
+.styled-medicine-table tbody tr:nth-of-type(odd) {
+    background-color: #ffffffdc;
+
+}
+
+.styled-medicine-table tbody tr:nth-of-type(even) {
+    background-color: #ffffffdc;
+}
+
+.styled-medicine-table tbody tr:last-of-type {
+    border-bottom: 2px solid #000000;
+}
+.styled-medicine-table tbody tr:hover {
+    background-color: #ccd0d8ef;
+}
+.styled-medicine-table td:nth-child(5){
+    width: 160px;
+}

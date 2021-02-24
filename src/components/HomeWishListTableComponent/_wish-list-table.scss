@@ -1,0 +1,56 @@
+.wish-list {
+    z-index: 1;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 1, 1);
+
+    .title-table{
+        background-color: #1c222998;
+        text-align: center;
+    }
+}
+.styled-table thead tr {
+    background-color: #252e35e8;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #797979;
+}
+
+.styled-table tbody tr:nth-of-type(odd) {
+    background-color: #ffffffdc;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #ffffffdc;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #000000;
+}
+.styled-table tbody tr:hover {
+    background-color: #ccd0d8ef;
+}
+.styled-table td:nth-child(3){
+    width: 110px;
+
+    span {
+        margin-right: 8px;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        padding: 2px;
+        font-size: 1.5rem;
+    }
+}
