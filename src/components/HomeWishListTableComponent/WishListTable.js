@@ -4,7 +4,7 @@ import { AuthContext } from '../AuthorizationComponents/Auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const WishListTable = ({ modalsData, setModalsData }) => {
+const WishListTable = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
 
     const [wishListData, setWishListData] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -27,11 +27,13 @@ const WishListTable = ({ modalsData, setModalsData }) => {
         })
     }
 
-    const openModal = () => {
+    const openModal = (e) => {
+        const medicineToPass = wishListData.find(el => el.id == e.currentTarget.dataset.medicineId)
         setModalsData(prevState => ({
             ...prevState,
             isModalActive: true,
             isNewInstanceModalHidden: false,
+            newInstanceModalData: medicineToPass
         }))
     }
 
@@ -41,7 +43,7 @@ const WishListTable = ({ modalsData, setModalsData }) => {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'userId': 'useridishere'
+                'userId': currentUser.uid
             },
             body: JSON.stringify(medicineToDeleteFromWishList),
         })
@@ -52,7 +54,7 @@ const WishListTable = ({ modalsData, setModalsData }) => {
     useEffect(() => {
         getData()
 
-    }, [isDeleted])
+    }, [isDeleted, eventHandler])
 
     return (
         <div className="wish-list">

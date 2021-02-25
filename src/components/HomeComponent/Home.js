@@ -5,7 +5,7 @@ import WishListTable from '../HomeWishListTableComponent/WishListTable';
 
 import firebase from '../../config/firebase'
 
-const Home = ({ modalsData, setModalsData }) => {
+const Home = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
 
     console.log(firebase.auth().currentUser)
 
@@ -14,11 +14,11 @@ const Home = ({ modalsData, setModalsData }) => {
             <section className="home background">
                 <div className="container">
                     <div className="left-row">
-                        <ExpiredTable />
+                        <ExpiredTable modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } />
                     </div>
                     <div className="right-row">
-                        <WishListTable modalsData={ modalsData } setModalsData={ setModalsData } />
-                        <ActiveTable />
+                        <WishListTable modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } />
+                        <ActiveTable modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } />
                     </div>
                 </div>
                 <div className="blured"></div>

@@ -17,6 +17,11 @@ const Header = () => {
 
     const { currentUser } = useContext(AuthContext);
 
+    // const [userName, setUserName] = useState('')
+
+    // useEffect(() => {
+    //     setUserName(currentUser.displayName)
+    // }, [currentUser])
 
     return (
        <header>
@@ -30,6 +35,7 @@ const Header = () => {
             </div>
             { currentUser ? 
                 <div className="login">
+                    {/* <div className="hello-name"> Hello, { userName } </div> */}
                     <a onClick={ () => firebase.auth().signOut() } className="login-button">SIGN OUT</a>
                 </div>
                 :

@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../AuthorizationComponents/Auth';
 
-const ActiveTable = () => {
+const ActiveTable = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
 
     const [activeTableData, setActiveTableData] = useState();
     const [isLoading, setIsLoading] = useState(true);
+
+    console.log(activeTableData)
 
     
     const { currentUser } = useContext(AuthContext);
@@ -28,9 +30,26 @@ const ActiveTable = () => {
         })
     }
 
+    const updateActiveMedicine = async (e) => {
+        console.log(activeTableData)
+        const medicineToPass = activeTableData.find(el => el.id == e.currentTarget.dataset.medicineId)
+        await fetch('http://localhost:8080/medicine/updateActiveMedicineInstance', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
+            },
+            body: JSON.stringify(medicineToPass),
+        })
+        .then(() => {
+            setEventHandler(true)
+            setEventHandler(false)
+        })
+    }
+
     useEffect(() => {
         getData()
-    }, [])
+    }, [eventHandler])
 
     return (
         <div className="active-medicines">
@@ -51,9 +70,15 @@ const ActiveTable = () => {
                             <td>{ value.medicineInstance.medicine.name }</td>
                             <td>{ value.familyMember.name }</td>
                             <td>
+                                { new Array(value.alreadyTaken).fill(0).map((el, elIdx) => (
+                                    <span key={ elIdx }> <FontAwesomeIcon icon={ faCheck } /> </span>
+                                )) }
+                                { new Array(value.quantityPerDay - value.alreadyTaken).fill(0).map((el, elIdx) => (
+                                    <span key={ elIdx } data-medicine-id={ value.id } onClick={ updateActiveMedicine } > <FontAwesomeIcon icon={ faMinus } /> </span>
+                                )) }
+                                {/* <span><FontAwesomeIcon icon={ faCheck } /></span>
                                 <span><FontAwesomeIcon icon={ faCheck } /></span>
-                                <span><FontAwesomeIcon icon={ faCheck } /></span>
-                                <span><FontAwesomeIcon icon={ faMinus } /></span>
+                                <span><FontAwesomeIcon icon={ faMinus } /></span> */}
                             </td>
                         </tr>
                     )) }

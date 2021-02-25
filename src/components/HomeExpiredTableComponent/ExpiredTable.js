@@ -4,7 +4,7 @@ import { AuthContext } from '../AuthorizationComponents/Auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingBasket, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const ExpiredTable = () => {
+const ExpiredTable = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
 
     const [expiredTableData, setExpiredTableData] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +37,10 @@ const ExpiredTable = () => {
             },
             body: JSON.stringify(medicineToPass.medicine),
         })
+        .then(() => {
+            setEventHandler(true)
+            setEventHandler(false)
+        })
     }
 
     const hideElementInList = async (e) => {
@@ -49,11 +53,15 @@ const ExpiredTable = () => {
             },
             body: JSON.stringify(medicineToHide),
         })
+        .then(() => {
+            setEventHandler(true)
+            setEventHandler(false)
+        })
     }
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [eventHandler, modalsData])
 
     return (
         <div className="expired-date-list">

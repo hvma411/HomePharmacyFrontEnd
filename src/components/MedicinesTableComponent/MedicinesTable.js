@@ -40,11 +40,13 @@ const MedicinesTable = ({ modalsData, setModalsData }) => {
         }))
     }
 
-    const openNewInstanceModal = () => {
+    const openNewInstanceModal = (e) => {
+        const medicineToPass = medicinesTableData.find(el => el.id == e.currentTarget.dataset.medicineId)
         setModalsData(prevState => ({
             ...prevState,
             isModalActive: true,
             isNewInstanceModalHidden: false,
+            newInstanceModalData: medicineToPass
         }))
     }
 

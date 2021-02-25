@@ -6,19 +6,30 @@ import { AuthContext } from './Auth';
 
 const SignUp = ({ history }) => {
 
+    const [newUserState, setNewUserState] = useState({
+        name: '',
+        email: '',
+        id: ''
+    })
+
     const handleRegister = useCallback(
         async e => {
             e.preventDefault();
-            const { email, password, password2 } = e.target.elements
-            console.log(password2.value)
-            console.log(password.value)
+            const { name, email, password, password2 } = e.target.elements
             try {
                 if (password.value !== password2.value) {
                     throw "Password don't match!"
                 }
                 await firebase
                     .auth()
-                    .createUserWithEmailAndPassword(email.value, password.value);
+                    .createUserWithEmailAndPassword(email.value, password.value)
+                    .then(
+                        setNewUserState(prevState => ({
+                            ...prevState,
+                            name: name.value,
+                            email: email.value
+                        }))
+                    );
                 history.push("/");
             } catch (error) {
                 alert(error)
@@ -29,7 +40,37 @@ const SignUp = ({ history }) => {
 
     const { currentUser } = useContext(AuthContext);
 
+    const setNewUserInDb = async (data) => {
+
+        setNewUserState(prevState => ({
+            ...prevState,
+            id: currentUser.uid
+        }))
+
+        await fetch('http://localhost:8080/addNewUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid,
+                
+            },
+            body: JSON.stringify(data),
+        })
+        .then(() => {
+            currentUser.updateProfile({
+                displayName: newUserState.name
+            })
+        })
+    }
+
+    useEffect(() => {
+        if (currentUser) {
+            setNewUserInDb(newUserState)
+        }
+    }, [currentUser])
+
     if (currentUser) {
+
         return <Redirect to="/" />
     }
 
@@ -40,6 +81,7 @@ const SignUp = ({ history }) => {
                     <div className="main-box">
                         <div className="logo"></div>       
                         <form onSubmit={ handleRegister }>
+                            <input type="text" className="textbox" name="name" placeholder="Your name"/>
                             <input type="email" className="textbox" name="email" placeholder="Email"/>
                             <input type="password" className="textbox" name="password" placeholder="Password"/>
                             <input type="password" className="textbox" name="password2" placeholder="Repeat password"/>

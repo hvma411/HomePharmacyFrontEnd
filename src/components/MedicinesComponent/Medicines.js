@@ -17,11 +17,11 @@ const Medicines = ({ modalsData, setModalsData }) => {
             <section className="home background">
                 <div className="container medicines-page">
                     <div className="badges-links">
-                        <button id="antibioticsButton" className="badge-button">Antibiotics</button>
-                        <button id="steroidsButton" className="badge-button">Steroids</button>
-                        <button id="onRecipeButton" className="badge-button">Prescription</button>
-                        <button id="allOwnedButton" className="badge-button">All owned</button>
-                        <button id="openModalAddMedicine" onClick={ openModal } className="badge-button">Add medicine</button>
+                        <button className="badge-button">Antibiotics</button>
+                        <button className="badge-button">Steroids</button>
+                        <button className="badge-button">Prescription</button>
+                        <button className="badge-button">All owned</button>
+                        <button onClick={ openModal } className="badge-button">Add medicine</button>
                     </div>
                     <MedicinesTable modalsData={ modalsData } setModalsData={ setModalsData } />
                 </div>

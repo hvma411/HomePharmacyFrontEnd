@@ -11,6 +11,8 @@ const Modals = ({ modalsData, setModalsData }) => {
                 { modalsData.isNewInstanceModalHidden ? null : <AddNewInstance modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isNewMedicineModalHidden ? null : <AddNewMedicine modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isMedicineDescriptionModalHidden ? null : <MedicineDescription modalsData={ modalsData } setModalsData={ setModalsData } /> }
+                { modalsData.isFamilyMemberModalHidden ? null : <AddFamilyMember modalsData={ modalsData } setModalsData={ setModalsData } /> }
+
             </div>
         )
     } else {
@@ -22,11 +24,38 @@ const Modals = ({ modalsData, setModalsData }) => {
 
 const AddNewInstance = ({ modalsData, setModalsData }) => {
 
+    const { currentUser } = useContext(AuthContext);
+
+    const data = modalsData.newInstanceModalData;
+
     const [newInstance, setNewInstance] = useState({
-        medicine_id: '',
+        medicine_id: data.id,
         quantityLeft: '',
-        expiryDate: ''
+        expiryDate: '',
+        userId: currentUser.uid
     })
+
+    const addInstance = async (e) => {
+        fetch('http://localhost:8080/medicine/addInstance', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
+            },
+            body: JSON.stringify(newInstance),
+        })
+        .then(
+            closeModal()
+        )
+    }
+
+    const handleFormChange = (e) => {
+        e.persist();
+        setNewInstance(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
 
     const closeModal = () => {
         setModalsData(prevState => ({
@@ -36,15 +65,22 @@ const AddNewInstance = ({ modalsData, setModalsData }) => {
         }))
     }
 
+    let inputType = "text"
+
+    const inputTypeHandler = (e) => {
+        console.log(e.currentTarget)
+        e.currentTarget.type = "date"
+    }
+
     return (
         <div className="new-instance-modal">
             <h2>ADD MEDICINE INSTANCE</h2>
             <span className="close-btn" onClick={ closeModal } ><FontAwesomeIcon icon={ faTimes } /> </span>
             <form>
-                <span className="title">Nazwa leku</span> 
-                <input name="quantityLeft" type="text" placeholder="Package quantity" />
-                <input name="expiryDate" type="text" placeholder="Expiry Date" />
-                <button type="button">Add medicine</button>
+                <span className="title">{ data.name }</span> 
+                <input name="quantityLeft" type="number" min="1" onChange={ handleFormChange } placeholder="Package pills quantity" />
+                <input name="expiryDate" autoComplete="off" type={ inputType } onChange={ handleFormChange } onFocus={ inputTypeHandler } placeholder="Expiry Date" />
+                <button type="button" onClick={ addInstance } >Add medicine</button>
             </form>
         </div>
     )
@@ -69,6 +105,7 @@ const AddNewMedicine = ({ modalsData, setModalsData }) => {
     useEffect(() => {
         if (modalsData.newMedicineModalData) {
             setNewMedicine({
+                userId: currentUser.uid,
                 id: data.id,
                 name: data.name,
                 description: data.description,
@@ -182,6 +219,50 @@ const MedicineDescription = ({ modalsData, setModalsData }) => {
             <div className="modal-content">
                 { modalsData.medicineDescriptionData }
             </div>
+        </div>
+    )
+}
+
+const AddFamilyMember = ({ modalsData, setModalsData }) => {
+
+    const [newFamilyMember, setNewFamilyMember] = useState({
+        name: '',
+        age: '',
+        notes: '',
+    })
+
+    const handleFormChange = (e) => {
+        e.persist();
+        setNewFamilyMember(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+
+    const addNewFamilyMember = (e) => {
+        console.log(newFamilyMember)
+    }
+
+
+    const closeModal = () => {
+        setModalsData(prevState => ({
+            ...prevState,
+            isModalActive: false,
+            isFamilyModalHidden: true
+        }))
+    }
+
+    return (
+        <div className="new-instance-modal">
+            <h2>ADD FAMILY MEMBER</h2>
+            <span className="close-btn" onClick={ closeModal } ><FontAwesomeIcon icon={ faTimes } /> </span>
+            <form>
+                <input type="text" name="name" onChange={ handleFormChange } placeholder="Name"/> 
+                <input type="number" name="age" onChange={ handleFormChange } placeholder="Age" />
+                <input type="text" name="notes" onChange={ handleFormChange } placeholder="Notes" />
+                <button type="button" onClick={ addNewFamilyMember } >Add member</button>
+            </form>
         </div>
     )
 }

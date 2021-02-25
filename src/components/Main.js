@@ -13,6 +13,7 @@ import {
 import Header from './HeaderComponent/Header';
 import Home from './HomeComponent/Home';
 import Medicines from "./MedicinesComponent/Medicines";
+import Family from "./FamilyComponent/Family";
 import Modals from "./ModalsComponent/Modals";
 
 const Main = () => {
@@ -25,18 +26,25 @@ const Main = () => {
             newMedicineModalData: null,
             isMedicineDescriptionModalHidden: true,
             medicineDescriptionData: null,
+            isFamilyMemberModalHidden: true,
+            familyMemberModalData: null
     })
+
+    const [eventHandler, setEventHandler] = useState(false)
 
     return (
         <>
             <Header />
             <Route exact path="/">
-                <Home modalsData={ modalsData } setModalsData={ setModalsData } />
+                <Home modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } />
             </Route>
             <Route exact path="/medicines">
-                <Medicines modalsData={ modalsData } setModalsData={ setModalsData } />
+                <Medicines modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } />
             </Route>
-            <Modals modalsData={ modalsData } setModalsData={ setModalsData } />
+            <Route exact path="/family">
+                <Family modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } />
+            </Route>
+            <Modals modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler }/>
         </>
     )
 }
