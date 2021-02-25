@@ -5,6 +5,26 @@
     font-family: sans-serif;
     min-width: 80%;
     box-shadow: 0 0 15px rgba(1, 0, 1, 1);   
+
+    .people-box {
+        position: relative;
+
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid black;
+            padding: 2px;
+            background: white;
+        }
+    }
+
+    .people-box:hover .tooltip {
+        visibility: visible;
+    }
 }
 .styled-medicine-table thead tr {
     background-color: #252e35e8;
@@ -34,8 +54,13 @@
 .styled-medicine-table tbody tr:hover {
     background-color: #ccd0d8ef;
 }
+
+.styled-medicine-table .medicines-tbody td:nth-child(4){
+    width: 180px;
+}
+
 .styled-medicine-table td:nth-child(5){
-    width: 230px;
+    width: 260px;
 
     span {
         margin-right: 8px;

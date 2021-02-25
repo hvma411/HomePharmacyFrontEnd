@@ -27,7 +27,13 @@ const Main = () => {
             isMedicineDescriptionModalHidden: true,
             medicineDescriptionData: null,
             isFamilyMemberModalHidden: true,
-            familyMemberModalData: null
+            familyMemberModalData: null,
+            isMedicineInstancesModalHidden: true,
+            medicineInstancesModalData: null,
+            isActiveMedicineModalHidden: true,
+            activeMedicineModalData: null,
+            isFamilyMemberMedicinesModalHidden: true,
+            familyMemberMedicinesModalData: null
     })
 
     const [eventHandler, setEventHandler] = useState(false)

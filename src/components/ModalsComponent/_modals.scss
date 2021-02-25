@@ -10,8 +10,11 @@
     align-items: center;
 
     .new-instance-modal {
-        width: 600px;
-        height: 350px;
+        width: auto;
+        min-width: 600px;
+        max-width: 750px;
+        height: auto;
+        min-height: 350px;
         position: relative;
         background: white;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
@@ -34,6 +37,23 @@
             z-index: 5;
             color: white;
             cursor: pointer;
+        }
+
+        .content-form-box {
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+
+            form {
+                button {
+                    width: 240px;
+                }
+            }
+
+            .family-medicines {
+                margin-top: 0;
+            }
         }
 
         form, .modal-content {
@@ -96,5 +116,111 @@
             font-weight: 600;
             margin-top: 10px;
         }
+
+
+        .instance-list-table{
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 700px;
+            box-shadow: 0 0 5px rgba(1, 0, 0, 0);
+        }
+        .instance-list-table thead tr {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            width: 100%;
+            padding: 7px;
+            border: none;
+            background: transparent;
+            margin-bottom: 10px;
+            font: 20px Arial, Helvetica, sans-serif;
+            color: rgb(88, 88, 88);
+            height: 15px;
+        }
+        .instance-list-table th,
+        .instance-list-table td {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            width: 100%;
+            padding: 7px;
+            border: none;
+            background: transparent;
+            margin-bottom: 10px;
+            font: 20px Arial, Helvetica, sans-serif;
+            color: rgb(88, 88, 88);
+            height: 15px;
+        }
+        .instance-list-table tbody tr {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            width: 100%;
+            padding: 7px;
+            border: none;
+            background: transparent;
+            margin-bottom: 10px;
+            font: 20px Arial, Helvetica, sans-serif;
+            color: rgb(88, 88, 88);
+            height: 15px;
+        }
+        
+        .instance-list-table tbody tr:nth-of-type(odd) {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            width: 100%;
+            padding: 7px;
+            border: none;
+            background: transparent;
+            margin-bottom: 10px;
+            font: 20px Arial, Helvetica, sans-serif;
+            color: rgb(88, 88, 88);
+            height: 15px;
+            border-bottom: 2px solid #b8b8b8;
+        }
+        
+        .instance-list-table tbody tr:nth-of-type(even) {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            outline: none;
+            width: 100%;
+            padding: 7px;
+            border: none;
+            background: transparent;
+            margin-bottom: 10px;
+            font: 20px Arial, Helvetica, sans-serif;
+            color: rgb(88, 88, 88);
+            height: 15px;
+            border-bottom: 2px solid #949494;
+        }
+        
+        .instance-list-table tbody tr:last-of-type {
+            border-bottom: 2px solid #000000;
+        }
+        .instance-list-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+        .instance-list-table th:nth-child(2){
+            min-width: 150px;
+        }
+        .instance-list-table th:nth-child(3){
+            min-width: 150px;
+        }
+        .instance-list-table th{
+            text-align: left;
+        }
     }
+
+    // .instances-list-modal {
+    //     width: auto;
+    // }
 }
+

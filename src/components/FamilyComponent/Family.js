@@ -2,7 +2,7 @@ import React from 'react';
 import FamilyTable from '../FamilyTableComponent/FamilyTable';
 import MedicinesTable from '../MedicinesTableComponent/MedicinesTable';
 
-const Family = ({ modalsData, setModalsData }) => {
+const Family = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
 
     const openModal = () => {
         setModalsData(prevState => ({

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../AuthorizationComponents/Auth';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faFileMedical, faInfoCircle, faList, faPlusSquare, faShoppingBasket, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faFileMedical, faInfoCircle, faList, faPills, faPlusSquare, faShoppingBasket, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const FamilyTable = ({ modalsData, setModalsData }) => {
 
@@ -28,37 +28,28 @@ const FamilyTable = ({ modalsData, setModalsData }) => {
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [modalsData])
 
-    // const openDescriptionModal = (e) => {
-    //     const descriptionToPass = medicinesTableData.find(el => el.id == e.currentTarget.dataset.medicineId).description
-    //     setModalsData(prevState => ({
-    //         ...prevState,
-    //         isModalActive: true,
-    //         isMedicineDescriptionModalHidden: false,
-    //         medicineDescriptionData: descriptionToPass
-    //     }))
-    // }
 
-    // const openNewInstanceModal = (e) => {
-    //     const medicineToPass = medicinesTableData.find(el => el.id == e.currentTarget.dataset.medicineId)
-    //     setModalsData(prevState => ({
-    //         ...prevState,
-    //         isModalActive: true,
-    //         isNewInstanceModalHidden: false,
-    //         newInstanceModalData: medicineToPass
-    //     }))
-    // }
+    const openActiveMedicineModal = (e) => {
+        // const medicineToPass = medicinesTableData.find(el => el.id == e.currentTarget.dataset.medicineId)
+        setModalsData(prevState => ({
+            ...prevState,
+            isModalActive: true,
+            isActiveMedicineModalHidden: false,
+            activeMedicineModalData: null
+        }))
+    }
 
-    // const openEditMedicineModal = (e) => {
-    //     const medicineToPass = medicinesTableData.find(el => el.id == e.currentTarget.dataset.medicineId)
-    //     setModalsData(prevState => ({
-    //         ...prevState,
-    //         isModalActive: true,
-    //         isNewMedicineModalHidden: false,
-    //         newMedicineModalData: medicineToPass
-    //     }))
-    // }
+    const openFamilyMemberMedicinesModal = (e) => {
+        const familyMemberToPass = familyTableData.find(el => el.id == e.currentTarget.dataset.memberId)
+        setModalsData(prevState => ({
+            ...prevState,
+            isModalActive: true,
+            isFamilyMemberMedicinesModalHidden: false,
+            familyMemberMedicinesModalData: familyMemberToPass
+        }))
+    }
 
     // const addToWishList = async (e) => {
     //     const medicineToPass = medicinesTableData.find(el => el.id == e.currentTarget.dataset.medicineId)
@@ -93,11 +84,10 @@ const FamilyTable = ({ modalsData, setModalsData }) => {
                         <td onClick={handleClick} >{ value.age }</td>
                         <td>{ value.notes }</td>
                         <td>
-                            {/* <span data-medicine-id={ value.id } onClick={ openDescriptionModal } ><FontAwesomeIcon icon={ faInfoCircle } /></span>
-                            <span data-medicine-id={ value.id }><FontAwesomeIcon icon={ faList } /></span>
-                            <span data-medicine-id={ value.id } onClick={ openNewInstanceModal } ><FontAwesomeIcon icon={ faPlusSquare } /></span>
-                            <span data-medicine-id={ value.id } onClick={ addToWishList } ><FontAwesomeIcon icon={ faShoppingBasket } /></span>
-                            <span data-medicine-id={ value.id } onClick={ openEditMedicineModal } ><FontAwesomeIcon icon={ faEdit } /></span> */}
+                            <span data-member-id={ value.id } onClick={ openFamilyMemberMedicinesModal } ><FontAwesomeIcon icon={ faList } /></span>
+                            <span data-member-id={ value.id } onClick={ openActiveMedicineModal } ><FontAwesomeIcon icon={ faPills } /></span>
+                            <span data-member-id={ value.id } ><FontAwesomeIcon icon={ faEdit } /></span>
+                            <span data-member-id={ value.id }><FontAwesomeIcon icon={ faTrash } /></span>
                         </td>
                     </tr>
                 )) }

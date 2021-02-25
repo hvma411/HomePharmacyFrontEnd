@@ -12,7 +12,9 @@ const Modals = ({ modalsData, setModalsData }) => {
                 { modalsData.isNewMedicineModalHidden ? null : <AddNewMedicine modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isMedicineDescriptionModalHidden ? null : <MedicineDescription modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isFamilyMemberModalHidden ? null : <AddFamilyMember modalsData={ modalsData } setModalsData={ setModalsData } /> }
-
+                { modalsData.isMedicineInstancesModalHidden ? null : <MedicineInstancesList modalsData={ modalsData } setModalsData={ setModalsData } /> }
+                { modalsData.isActiveMedicineModalHidden ? null : <ActiveMedicineModal modalsData={ modalsData } setModalsData={ setModalsData } /> }
+                { modalsData.isFamilyMemberMedicinesModalHidden ? null : <FamilyMemberMedicinesModal modalsData={ modalsData } setModalsData={ setModalsData } /> }
             </div>
         )
     } else {
@@ -225,6 +227,8 @@ const MedicineDescription = ({ modalsData, setModalsData }) => {
 
 const AddFamilyMember = ({ modalsData, setModalsData }) => {
 
+    const { currentUser } = useContext(AuthContext);
+
     const [newFamilyMember, setNewFamilyMember] = useState({
         name: '',
         age: '',
@@ -239,17 +243,25 @@ const AddFamilyMember = ({ modalsData, setModalsData }) => {
         }));
     };
 
-
     const addNewFamilyMember = (e) => {
-        console.log(newFamilyMember)
+        fetch('http://localhost:8080/family/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
+            },
+            body: JSON.stringify(newFamilyMember),
+        })
+        .then(
+            closeModal()
+        )
     }
-
 
     const closeModal = () => {
         setModalsData(prevState => ({
             ...prevState,
             isModalActive: false,
-            isFamilyModalHidden: true
+            isFamilyMemberModalHidden: true
         }))
     }
 
@@ -264,6 +276,199 @@ const AddFamilyMember = ({ modalsData, setModalsData }) => {
                 <button type="button" onClick={ addNewFamilyMember } >Add member</button>
             </form>
         </div>
+    )
+}
+
+const MedicineInstancesList = ({ modalsData, setModalsData }) => {
+
+    const medicineInstances = modalsData.medicineInstancesModalData.medicineInstances
+
+    console.log(medicineInstances)
+
+    const closeModal = () => {
+        setModalsData(prevState => ({
+            ...prevState,
+            isModalActive: false,
+            isMedicineInstancesModalHidden: true
+        }))
+    }
+
+    return (
+        <div className="new-instance-modal instances-list-modal">
+            <h2>MEDICINE INSTANCES LIST</h2>
+            <span className="close-btn" onClick={ closeModal } ><FontAwesomeIcon icon={ faTimes } /> </span>
+            <form>
+                <table className="instance-list-table">
+                    <thead className="instance-list-thead">
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Quantity</th>
+                            <th>Expire Date</th>
+                        </tr>
+                    </thead>
+                    <tbody className="instance-list-tbody">
+                        { medicineInstances.map((value, idx) => (
+                            <tr key={ idx }>
+                                <td>{ value.medicine.name }</td>
+                                <td>{ value.quantityLeft }</td>
+                                <td>{ value.expiryDate }</td>
+                            </tr>
+                        )) }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    )
+}
+
+const ActiveMedicineModal = ({ modalsData, setModalsData }) => {
+
+    const closeModal = () => {
+        setModalsData(prevState => ({
+            ...prevState,
+            isModalActive: false,
+            isActiveMedicineModalHidden: true
+        }))
+    }
+
+    return (
+        <div className="new-instance-modal">
+            <h2>Member medicines / active medicines</h2>
+            <span className="close-btn" onClick={ closeModal } ><FontAwesomeIcon icon={ faTimes } /> </span>
+            <div className="forms-box">
+                <form>
+                    <select>
+                        <option>ABC</option>
+                    </select>
+                    <select>
+                        <option>BCD</option>
+                    </select>
+                    <input type="number" placeholder="quantityPerDay" />
+                    <button>Add active medicine</button>
+                </form>
+            </div>
+        </div>
+
+    )
+}
+
+const FamilyMemberMedicinesModal = ({ modalsData, setModalsData }) => {
+
+    const [medicinesTableData, setMedicinesTableData] = useState();
+    const [isLoading, setIsLoading] = useState(true);
+
+    const [medicineToFamilyMember, setMedicineToFamilyMember] = useState({
+        id: modalsData.familyMemberMedicinesModalData.id, //family member id
+        medicineIds: []
+    })
+
+    const { currentUser } = useContext(AuthContext);
+
+    const getData = async () => {
+        await fetch('http://localhost:8080/medicine/list', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            setMedicinesTableData(data)
+            setIsLoading(false)
+        })
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+    const connectFamilyMemberToMedicine = (e) => {
+
+        e.preventDefault()
+
+        console.log(modalsData.familyMemberMedicinesModalData)
+        console.log(medicineToFamilyMember)
+
+        // const medicineToPass = medicinesTableData.find(el => el.id == e.currentTarget.dataset.medicineId)
+        fetch('http://localhost:8080/family/edit', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'userId': currentUser.uid
+            },
+            body: JSON.stringify(medicineToFamilyMember),
+        })
+        .then(
+            closeModal()
+        )
+    }
+
+    const closeModal = () => {
+        setModalsData(prevState => ({
+            ...prevState,
+            isModalActive: false,
+            isFamilyMemberMedicinesModalHidden: true
+        }))
+    }
+
+    const handleSelectChange = (e) => {
+        e.persist()
+        setMedicineToFamilyMember(prevState => ({
+            ...prevState,
+            medicineIds: [parseInt(e.target.value)]
+        }))
+    }
+
+    return (
+        <div className="new-instance-modal">
+            <h2>FAMILY MEMBER MEDICINES</h2>
+            <span className="close-btn" onClick={ closeModal } ><FontAwesomeIcon icon={ faTimes } /> </span>
+            <div className="content-form-box">
+                <form>
+                    <select onChange={ handleSelectChange } value={ medicineToFamilyMember.medicineIds } multiple={false} >
+                        <option>Select medicine to connect it with family member</option>
+                        { isLoading ? null : medicinesTableData.map((value, idx) => (
+                            <option key={ idx } data-medicine-id={ value.id } value={ value.id } > { value.name } </option>
+                        )) }
+                    </select>
+                    <button onClick={ connectFamilyMemberToMedicine } >Add medicine to family member</button>
+                </form>
+                <table className="styled-medicine-table family-medicines">
+                    <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Notes</th>
+                            <th>Badges</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className="medicines-tbody">
+                        {/* { isLoading ? null : medicinesTableData.map((value, idx) => (
+                            <tr key={ idx }>
+                                <td>{ value.name }</td>
+                                <td onClick={handleClick} >{ value.notes }</td>
+                                <td>People here</td>
+                                <td>
+                                    { value.steroid ? <span> <FontAwesomeIcon icon={ faDisease } /> </span> : null }
+                                    { value.antibiotic ? <span> <FontAwesomeIcon icon={ faBacterium } /> </span> : null }
+                                    { value.prescriptionNeeded ? <span> <FontAwesomeIcon icon={ faFilePrescription } /> </span> : null }
+                                </td>
+                                <td>
+                                    <span data-medicine-id={ value.id } onClick={ openDescriptionModal } ><FontAwesomeIcon icon={ faInfoCircle } /></span>
+                                    <span data-medicine-id={ value.id } onClick={ openMedicinesInstancesListModal } ><FontAwesomeIcon icon={ faList } /></span>
+                                    <span data-medicine-id={ value.id } onClick={ openNewInstanceModal } ><FontAwesomeIcon icon={ faPlusSquare } /></span>
+                                    <span data-medicine-id={ value.id } onClick={ addToWishList } ><FontAwesomeIcon icon={ faShoppingBasket } /></span>
+                                    <span data-medicine-id={ value.id } onClick={ openEditMedicineModal } ><FontAwesomeIcon icon={ faEdit } /></span>
+                                    <span data-medicine-id={ value.id } onClick={ openEditMedicineModal } ><FontAwesomeIcon icon={ faTrash } /></span>
+                                </td>
+                            </tr>
+                        )) } */}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     )
 }
 
