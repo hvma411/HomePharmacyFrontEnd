@@ -4,7 +4,7 @@ import { AuthContext } from '../AuthorizationComponents/Auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faFileMedical, faInfoCircle, faList, faPills, faPlusSquare, faShoppingBasket, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-const FamilyTable = ({ modalsData, setModalsData }) => {
+const FamilyTable = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
 
     const [familyTableData, setFamilyTableData] = useState();
     const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +28,7 @@ const FamilyTable = ({ modalsData, setModalsData }) => {
 
     useEffect(() => {
         getData()
-    }, [modalsData])
+    }, [modalsData, eventHandler])
 
 
     const openActiveMedicineModal = (e) => {

@@ -129,10 +129,10 @@ const MedicinesTable = ({ modalsData, setModalsData, eventHandler, setEventHandl
                         <td>{ value.name }</td>
                         <td onClick={handleClick} >{ value.notes }</td>
                         <td>
-                            { value.familyMembers.map((el, elIdx) => (
+                            { value.familyMembers == null ? null : value.familyMembers.map((el, elIdx) => (
                                 <span className="people-box" > 
                                     <FontAwesomeIcon icon={ faUser } />
-                                    <div className="tooltip"> { el.name } </div>
+                                    { el ? <div className="tooltip"> { el.name } </div> : null }
                                 </span>
                             )) }
                         </td>

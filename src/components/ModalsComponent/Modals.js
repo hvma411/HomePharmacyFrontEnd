@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../AuthorizationComponents/Auth';
 
-const Modals = ({ modalsData, setModalsData }) => {
+const Modals = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
     
     if (modalsData.isModalActive) {
         return (
@@ -11,7 +11,7 @@ const Modals = ({ modalsData, setModalsData }) => {
                 { modalsData.isNewInstanceModalHidden ? null : <AddNewInstance modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isNewMedicineModalHidden ? null : <AddNewMedicine modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isMedicineDescriptionModalHidden ? null : <MedicineDescription modalsData={ modalsData } setModalsData={ setModalsData } /> }
-                { modalsData.isFamilyMemberModalHidden ? null : <AddFamilyMember modalsData={ modalsData } setModalsData={ setModalsData } /> }
+                { modalsData.isFamilyMemberModalHidden ? null : <AddFamilyMember modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } /> }
                 { modalsData.isMedicineInstancesModalHidden ? null : <MedicineInstancesList modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isActiveMedicineModalHidden ? null : <ActiveMedicineModal modalsData={ modalsData } setModalsData={ setModalsData } /> }
                 { modalsData.isFamilyMemberMedicinesModalHidden ? null : <FamilyMemberMedicinesModal modalsData={ modalsData } setModalsData={ setModalsData } /> }
@@ -225,7 +225,7 @@ const MedicineDescription = ({ modalsData, setModalsData }) => {
     )
 }
 
-const AddFamilyMember = ({ modalsData, setModalsData }) => {
+const AddFamilyMember = ({ modalsData, setModalsData, eventHandler, setEventHandler }) => {
 
     const { currentUser } = useContext(AuthContext);
 
@@ -252,9 +252,11 @@ const AddFamilyMember = ({ modalsData, setModalsData }) => {
             },
             body: JSON.stringify(newFamilyMember),
         })
-        .then(
+        .then( () => {
             closeModal()
-        )
+            setEventHandler(true)
+            setEventHandler(false)
+        })
     }
 
     const closeModal = () => {

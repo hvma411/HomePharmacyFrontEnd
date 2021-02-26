@@ -20,7 +20,7 @@ const Family = ({ modalsData, setModalsData, eventHandler, setEventHandler }) =>
                     <div className="badges-links">
                         <button className="badge-button" onClick={ openModal } >Add family member</button>
                     </div>
-                    <FamilyTable modalsData={ modalsData } setModalsData={ setModalsData } />
+                    <FamilyTable modalsData={ modalsData } setModalsData={ setModalsData } eventHandler={ eventHandler } setEventHandler={ setEventHandler } />
                 </div>
                 <div className="blured"></div>
             </section>
