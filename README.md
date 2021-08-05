@@ -1,4 +1,4 @@
-# HomePharmacy - front-end part
+# HomePharmacy - front-end
 ### Table of contents
 * [Project info](#project-info)
 * [Technologies](#technologies)
