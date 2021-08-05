@@ -1,4 +1,4 @@
-# CosmoCode - portfolio website
+# HomePharmacy - front-end part
 ### Table of contents
 * [Project info](#project-info)
 * [Technologies](#technologies)
